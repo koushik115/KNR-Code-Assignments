@@ -1,4 +1,4 @@
-K&R Code Assignments
+# K&R Code Assignments
 Welcome to the K&R Code Assignments repository! This repository is dedicated to those learning C programming through "The C Programming Language" by Brian W. Kernighan and Dennis M. Ritchie. Whether you're a beginner or an advanced learner, these assignments will guide you through the fundamental concepts of C as presented in the seminal book.
 
 About The Repository
