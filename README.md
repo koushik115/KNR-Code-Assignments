@@ -9,7 +9,7 @@ To get started, clone the repository to your local machine:
 
 bash
 Copy code
-git clone https://github.com/yourusername/KNR-Code-Assignments.git
+git clone https://github.com/koushik115/KNR-Code-Assignments.git
 Navigate into the repository directory:
 
 bash
