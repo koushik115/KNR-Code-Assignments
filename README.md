@@ -7,13 +7,11 @@ Each folder in this repository corresponds to a chapter or specific concept from
 Getting Started
 To get started, clone the repository to your local machine:
 
-bash
-Copy code
+
 git clone https://github.com/koushik115/KNR-Code-Assignments.git
 Navigate into the repository directory:
 
-bash
-Copy code
+
 cd KNR-Code-Assignments
 You can then browse through the folders, each labeled according to the chapters and exercise numbers from the book.
 
