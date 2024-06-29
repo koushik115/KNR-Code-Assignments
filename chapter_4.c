@@ -10,6 +10,7 @@ uint8_t getLine(char *line, uint8_t max);
 int stringIndex(char *src, char *searchFor);
 int lastOccurence(char *src, char *searchFor);
 float asciiToFloat(char *string);
+float asciiToFloatVersionTwo(char *string);
 
 int main(void) {
     // char line[MAXLINE];
@@ -27,7 +28,9 @@ int main(void) {
     // uint8_t position = lastOccurence(stringOne, "example");
     // printf("%u", position);
     
-    printf("%f", asciiToFloat("-23.68"));
+    // printf("%f", asciiToFloat("-23.68"));
+
+    printf("%f", asciiToFloatVersionTwo("123.45e+5"));
 
     return 0;
 }
@@ -102,3 +105,66 @@ float asciiToFloat(char *string) {
     return (floatValue / power) * sign;
 }
 
+float asciiToFloatVersionTwo(char *string) {
+    double floatValue = 0.0, power, base = 1.0;
+    int i, sign;
+    
+    for(i = 0; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
+    
+    sign = (string[i] == '-') ? -1 : 1;
+    
+    if(string[i] == '-' || string[i] == '+')
+        i++;
+        
+    for(i = 0; string[i] >= '0' && string[i] <= '9'; i++)
+        floatValue = floatValue * 10.0 + (string[i] - '0');
+        
+    if(string[i] == '.')
+        i++;
+        
+    for(power = 1.0; string[i] >= '0' && string[i] <= '9'; i++) {
+        power = power * 10.0;
+        floatValue = floatValue * 10.0 + (string[i] - '0');
+    }
+    
+    floatValue = (floatValue / power) * sign;
+    
+    if(string[i] == 'e' || string[i] == 'E')
+        i++;
+        
+    for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
+    
+    switch(string[i]) {
+        case '-' :  for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
+                    
+                    i++;
+                    for(power = 0.0; string[i] >= '0' && string[i] <= '9'; i++) {
+                        power = power * 10.0 + (string[i] - '0');
+                    }
+                    
+                    while(power != 0.0) {
+                        base = base * 10.0;
+                        power--;
+                    }
+                    
+                    floatValue = (floatValue) / base;
+                    break;
+                    
+        case '+':   for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
+                    
+                    i++;
+                    for(power = 0.0; string[i] >= '0' && string[i] <= '9'; i++) {
+                        power = power * 10.0 + (string[i] - '0');
+                    }
+                    
+                    while(power != 0.0) {
+                        base = base * 10.0;
+                        power--;
+                    }
+                    
+                    floatValue = (floatValue) * base;
+                    break;
+    }
+    
+    return floatValue;
+}
