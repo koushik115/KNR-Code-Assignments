@@ -1,170 +1,152 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
 
-#define MAXLINE 100U
+#define MAXLINE 1000
+
+int getLine(char line[], int max);
+int strindex(char source[], char searchfor[]);
+int strrindex(char s[], char t[]);
+double asciitofloat(char src[]);
+double asciitofloatver2(char src[]);
 
 char pattern[] = "ould";
-uint8_t getLine(char *line, uint8_t max);
-int stringIndex(char *src, char *searchFor);
-int lastOccurence(char *src, char *searchFor);
-float asciiToFloat(char *string);
-float asciiToFloatVersionTwo(char *string);
 
-int main(void) {
-    // char line[MAXLINE];
-    // uint8_t found = 0;
-   
-    // while(getLine(line, MAXLINE) > 0) {
-    //     if(stringIndex(line, pattern) >= 0) {
-    //         printf("%s", line);
-    //         found++;
-    //     }
-    // }
-   
-    // char stringOne[] = "This is an example of a string containing the word example multiple times. Let's find the last example.";
+int main()
+{
+    char line[MAXLINE];
+    double sum, asciitofloat(char []);
+    int getLine(char line[], int max);
+
+    char strOne[] = "banana";
+    char strTwo[] = "na";
+
     
-    // uint8_t position = lastOccurence(stringOne, "example");
-    // printf("%u", position);
-    
-    // printf("%f", asciiToFloat("-23.68"));
-
-    printf("%f", asciiToFloatVersionTwo("123.45e+5"));
-
-    return 0;
-}
-
-uint8_t getLine(char *line, uint8_t max) {
-    uint8_t index = 0, character = 0;
-    
-    while(max > 0 && (character = getchar()) != EOF && character != '\n') {
-        line[index++] = character;
-        max--;
+    sum = 0;
+    while(getLine(line, MAXLINE) > 0)
+    {
+        printf("%.9f", sum += asciitofloatver2(line));
     }
+
+    // return found;
+
+    printf("%d", strrindex(strOne, strTwo));
     
-    if(character == '\n')
-        line[index++] = character;
-        
-    line[index++] = '\0';
-    
-    return index;
 }
 
-int stringIndex(char *src, char *searchFor) { // src = "He would"; searchFor = "ould";
-    uint8_t i = 0, j = 0, k = 0;
-    
-    for(i = 0; src[i] != '\0'; i++) {
-        for(j = i, k = 0; searchFor[k] != '\0' && src[j] == searchFor[k]; j++, k++);
-        
-        if(k > 0 && searchFor[k] == '\0')
+int getLine(char s[], int lim)
+{
+    int i = 0, c = 0;
+
+    while(--lim > 0 && (c = getchar()) != EOF && c != '\n')
+        s[i++] = c;
+
+    s[i] = '\0';
+
+    return i;
+}
+
+int strindex(char source[], char searchfor[])
+{
+    int i, j, k;
+
+    for(i = 0; source[i] != '\0'; i++)
+    {
+        for(j = i, k = 0; searchfor[k] != '\0' && source[j] == searchfor[k]; j++, k++);
+
+        if(k > 0 && (source[i] == searchfor[k]))
             return i;
     }
-    
+
     return -1;
 }
 
-int lastOccurence(char *src, char *searchFor) {
-    uint8_t i = 0, j = 0, k = 0;
-    int lastOccurence = -1;
-    
-    for(i = 0; src[i] != '\0'; i++) {
-        for(j = i, k = 0; src[j] == searchFor[k] && searchFor[k] != '\0'; j++, k++);
+int strrindex(char s[], char t[])
+{
+    int i = 0, j = 0, k = 0;
 
-    if(k > 0 && searchFor[k] == '\0')
-        lastOccurence = i;
-            
+    for(i = strlen(s) - 1; i >= 0; i--)
+    {
+        if(i < strlen(t) - 1)
+            break;
+
+        for(j = i, k = (strlen(t) - 1); k >= 0 && s[j] == t[k]; j--, k--)
+            ;
+
+        if(k == -1)
+            return j + 1;
     }
-    
-    return lastOccurence;
+
+    return -1;
 }
 
-float asciiToFloat(char *string) {
-    double floatValue, power;
+double asciitofloat(char src[])
+{
+    double val = 0.0, power = 0.0;
     int i, sign;
-    
-    for(i = 0; string[i] == '\t' || string[i] == '\b' || string[i] == ' '; i++); // Skip the Whitespace
-    
-    sign = (string[i] == '-') ? -1 : 1;
-    
-    if(string[i] == '-' || string[i] == '+')
-        i++;
-        
-    for(floatValue = 0.0; string[i] >= '0' && string[i] <= '9'; i++) {
-        floatValue = floatValue * 10.0 + (string[i] - '0');
+
+    for(i = 0; src[i] == ' ' || src[i] == '\t'; i++);
+
+    sign = src[i] == '-' ? -1 : 1;
+    if(src[i] == '-' || src[i] == '+')
+        ++i;
+
+    for(val = 0.0; src[i] >= '0' && src[i] <= '9'; ++i)
+        val = val * 10 + (src[i] - '0');
+
+    if(src[i] == '.')
+        ++i;
+
+    for(power = 1.0; src[i] >= '0' && src[i] <= '9'; ++i)
+    {
+        val = val * 10 + (src[i] - '0');
+        power *= 10;
     }
-        
-    if(string[i] == '.')
-        i++;
-            
-    for(power = 1.0; string[i] >= '0' && string[i] <= '9'; i++) {
-        floatValue = floatValue * 10.0 + (string[i] - '0');
+    
+    
+    return (sign * (val / power));
+}
+
+double asciitofloatver2(char src[])
+{
+    double value, power, exp;
+    int i, j, sign, expsign, expbase;
+
+    for(i = 0; src[i] == ' ' || src[i] == '\t'; i++);
+
+    sign = src[i] == '-' ? -1 : 1;
+    if(src[i] == '-')
+        ++i;
+
+    for(value = 0.0; src[i] >= '0' && src[i] <= '9'; ++i)
+        value = value * 10.0 + (src[i] - '0');
+
+    if(src[i] == '.')
+        ++i;
+
+    for(power = 1.0; src[i] >= '0' && src[i] <= '9'; ++i)
+    {
+        value = value * 10.0 + (src[i] - '0');
         power *= 10.0;
     }
-    
-    return (floatValue / power) * sign;
-}
 
-float asciiToFloatVersionTwo(char *string) {
-    double floatValue = 0.0, power, base = 1.0;
-    int i, sign;
+    value /= power;
+
+    if(src[i] == 'e' && (src[i + 1] == '-' || src[i + 1] == '+'))
+        i += 1;
+
+    expsign = src[i] == '-' ? -1 : 1;
+
+    if(src[i] == '-' || src[i] == '+')
+        ++i;
+
+    for(expbase = 0; src[i] >= '0' && src[i] <= '9'; ++i)
+          expbase = expbase * 10 + (src[i] - '0');
     
-    for(i = 0; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
-    
-    sign = (string[i] == '-') ? -1 : 1;
-    
-    if(string[i] == '-' || string[i] == '+')
-        i++;
-        
-    for(i = 0; string[i] >= '0' && string[i] <= '9'; i++)
-        floatValue = floatValue * 10.0 + (string[i] - '0');
-        
-    if(string[i] == '.')
-        i++;
-        
-    for(power = 1.0; string[i] >= '0' && string[i] <= '9'; i++) {
-        power = power * 10.0;
-        floatValue = floatValue * 10.0 + (string[i] - '0');
-    }
-    
-    floatValue = (floatValue / power) * sign;
-    
-    if(string[i] == 'e' || string[i] == 'E')
-        i++;
-        
-    for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
-    
-    switch(string[i]) {
-        case '-' :  for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
-                    
-                    i++;
-                    for(power = 0.0; string[i] >= '0' && string[i] <= '9'; i++) {
-                        power = power * 10.0 + (string[i] - '0');
-                    }
-                    
-                    while(power != 0.0) {
-                        base = base * 10.0;
-                        power--;
-                    }
-                    
-                    floatValue = (floatValue) / base;
-                    break;
-                    
-        case '+':   for(; string[i] == ' ' || string[i] == '\n' || string[i] == '\b' || string[i] == '\t'; i++);  // Skip Whitespaces
-                    
-                    i++;
-                    for(power = 0.0; string[i] >= '0' && string[i] <= '9'; i++) {
-                        power = power * 10.0 + (string[i] - '0');
-                    }
-                    
-                    while(power != 0.0) {
-                        base = base * 10.0;
-                        power--;
-                    }
-                    
-                    floatValue = (floatValue) * base;
-                    break;
-    }
-    
-    return floatValue;
+    for(exp = 1.0, j = 0; j < expbase; j++)
+        exp *= 10;
+
+    if(expsign == -1)
+        return (sign * (value / exp));
+    else
+        return (sign * value * exp);
 }
